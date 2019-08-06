@@ -10,10 +10,15 @@ public class Player : MonoBehaviour
     [SerializeField] private float jumpForce = 5f;
     [SerializeField] private LayerMask groundLayer;
     private bool resetJump = false;
+
+    private PlayerAnimation playerAnim;
+    private SpriteRenderer playerSprite;
     
     void Start()
     {
         myBody = GetComponent<Rigidbody2D>();
+        playerAnim = GetComponent<PlayerAnimation>();
+        playerSprite = GetComponentInChildren<SpriteRenderer>();
     }
 
     void Update()
@@ -26,6 +31,7 @@ public class Player : MonoBehaviour
     {
         float horizontalInput = Input.GetAxisRaw("Horizontal") * Time.deltaTime * moveSpeed;
         myBody.velocity = new Vector2(horizontalInput, myBody.velocity.y);
+        playerAnim.Move(horizontalInput);
     }
 
     private void Jump()
