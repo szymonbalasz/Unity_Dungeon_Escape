@@ -29,11 +29,16 @@ public class PlayerAnimation : MonoBehaviour
     {
         if (move > 0)
         {
-            playerSprite.flipX = false;
+            transform.localScale = new Vector3(1, 1, 1);
         }
         else if (move < 0)
         {
-            playerSprite.flipX = true;
+           transform.localScale = new Vector3(-1, 1, 1);
         }
+    }
+
+    public void Jump(bool jumping)
+    {
+        playerAnim.SetBool("Jumping", jumping);
     }
 }

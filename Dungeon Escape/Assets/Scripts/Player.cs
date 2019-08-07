@@ -10,6 +10,7 @@ public class Player : MonoBehaviour
     [SerializeField] private float jumpForce = 5f;
     [SerializeField] private LayerMask groundLayer;
     private bool resetJump = false;
+    private bool grounded = false;
 
     private PlayerAnimation playerAnim;
     private SpriteRenderer playerSprite;
@@ -30,6 +31,7 @@ public class Player : MonoBehaviour
     private void Move()
     {
         float horizontalInput = Input.GetAxisRaw("Horizontal") * Time.deltaTime * moveSpeed;
+        grounded = isGrounded();
         myBody.velocity = new Vector2(horizontalInput, myBody.velocity.y);
         playerAnim.Move(horizontalInput);
     }
@@ -40,16 +42,19 @@ public class Player : MonoBehaviour
         {
             myBody.velocity = new Vector2(myBody.velocity.x, jumpForce);
             StartCoroutine(ResetJumpRoutine());
+            playerAnim.Jump(true);
         }
     }
 
     private bool isGrounded()
     {
         RaycastHit2D hitInfo = Physics2D.Raycast(transform.position, Vector2.down, 0.6f, groundLayer.value);
+        Debug.DrawRay(transform.position, Vector2.down, Color.green);
         if(hitInfo.collider != null)
         {
             if (resetJump == false)
             {
+                playerAnim.Jump(false);
                 return true;
             }            
         }
