@@ -19,13 +19,14 @@ public class Player : MonoBehaviour
     {
         myBody = GetComponent<Rigidbody2D>();
         playerAnim = GetComponent<PlayerAnimation>();
-        playerSprite = GetComponentInChildren<SpriteRenderer>();
+        playerSprite = transform.Find("Sprite").GetComponent<SpriteRenderer>();
     }
 
     void Update()
     {
         Move();
         Jump();
+        Attack();
     }
 
     private void Move()
@@ -44,6 +45,14 @@ public class Player : MonoBehaviour
             StartCoroutine(ResetJumpRoutine());
             playerAnim.Jump(true);
         }
+    }
+
+    private void Attack()
+    {
+        if (Input.GetMouseButtonDown(0) && grounded)
+        {
+            playerAnim.Attack();
+        }        
     }
 
     private bool isGrounded()

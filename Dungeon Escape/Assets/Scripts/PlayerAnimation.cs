@@ -4,16 +4,17 @@ using UnityEngine;
 
 public class PlayerAnimation : MonoBehaviour
 {
-    private Animator playerAnim;
-    private SpriteRenderer playerSprite;
+    private Animator playerAnim, swordAnim;
+    private SpriteRenderer playerSprite, playerSwordArc;
 
     void Start()
     {
-        playerAnim = GetComponentInChildren<Animator>();
-        playerSprite = GetComponentInChildren<SpriteRenderer>();
+        playerAnim = transform.Find("Sprite").GetComponent<Animator>();
+        playerSprite = transform.Find("Sprite").GetComponent<SpriteRenderer>();
+        //playerSwordArc = transform.Find("Sword_Arc").GetComponent<SpriteRenderer>();
+        swordAnim = transform.Find("Sword_Arc").GetComponent<Animator>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         
@@ -40,5 +41,11 @@ public class PlayerAnimation : MonoBehaviour
     public void Jump(bool jumping)
     {
         playerAnim.SetBool("Jumping", jumping);
+    }
+
+    public void Attack()
+    {
+        playerAnim.SetTrigger("Attack");
+        
     }
 }
