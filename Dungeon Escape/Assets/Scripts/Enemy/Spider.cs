@@ -4,5 +4,13 @@ using UnityEngine;
 
 public class Spider : Enemy
 {
+    public override void Attack()
+    {
+        
+    }
 
+    public override void Update()
+    {
+        throw new System.NotImplementedException();
+    }
 }
