@@ -5,11 +5,13 @@ using UnityEngine;
 public class SwordSwing : MonoBehaviour    
 {
     private Animator swordAnim;
+    private Attack attack;
 
     // Start is called before the first frame update
     void Start()
     {
         swordAnim = transform.parent.transform.Find("Sword_Arc").GetComponent<Animator>();
+        attack = GetComponentInChildren<Attack>();
     }
 
     // Update is called once per frame
@@ -21,5 +23,10 @@ public class SwordSwing : MonoBehaviour
     private void Swing()
     {
         swordAnim.SetTrigger("SwordAnimation");
+    }
+
+    private void ResetCooldown()
+    {
+        attack.ResetCooldown();
     }
 }

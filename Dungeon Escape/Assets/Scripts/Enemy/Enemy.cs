@@ -15,13 +15,15 @@ public abstract class Enemy : MonoBehaviour
     protected Animator anim;
     protected const string ANIMATION_IDLE = "Idle";
     protected const string ANIMATION_WALK = "Walk";
+    protected const string ANIMATION_HIT = "Hit";
+    protected const string ANIMATION_DEATH = "Death";
 
     private void Start()
     {
         Init();
     }
 
-    protected virtual void Init()
+    public virtual void Init()
     {
         target = pointB.position;
         lastPosition = transform.position;
@@ -78,5 +80,15 @@ public abstract class Enemy : MonoBehaviour
         {
             transform.localScale = new Vector3(-1, 1, 1);
         }
+    }
+
+    public void Hit()
+    {
+        anim.SetTrigger(ANIMATION_HIT);
+    }
+
+    public void Death()
+    {
+
     }
 }
