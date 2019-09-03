@@ -10,6 +10,7 @@ public abstract class Enemy : MonoBehaviour
     //movement
     [SerializeField] protected Transform pointA, pointB;
     protected Vector3 target, lastPosition;
+    private bool isHit = false;
 
     //animations
     protected Animator anim;
@@ -37,6 +38,7 @@ public abstract class Enemy : MonoBehaviour
 
     protected virtual void Move()
     {
+        if (!anim.GetCurrentAnimatorStateInfo(0).IsName(ANIMATION_WALK)) { return; }
         float step = speed * Time.deltaTime;
         bool wait = false;
 
@@ -90,7 +92,6 @@ public abstract class Enemy : MonoBehaviour
     public IEnumerator Death()
     {
         anim.SetTrigger(ANIMATION_DEATH);
-        speed = 0;
         yield return new WaitForSeconds(5);
         Destroy(this.gameObject);
     }

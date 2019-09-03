@@ -10,10 +10,18 @@ public class MossGiant : Enemy, IDamageable
     {
         base.Init();
         Health = base.health;
-
     }
+
     public void Damage()
     {
-
+        Health--;
+        if (Health < 1)
+        {
+            StartCoroutine(Death());
+        }
+        else
+        {
+            Hit();
+        }
     }
 }
