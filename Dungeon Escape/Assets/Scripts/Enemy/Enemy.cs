@@ -87,8 +87,11 @@ public abstract class Enemy : MonoBehaviour
         anim.SetTrigger(ANIMATION_HIT);
     }
 
-    public void Death()
+    public IEnumerator Death()
     {
-
+        anim.SetTrigger(ANIMATION_DEATH);
+        speed = 0;
+        yield return new WaitForSeconds(5);
+        Destroy(this.gameObject);
     }
 }

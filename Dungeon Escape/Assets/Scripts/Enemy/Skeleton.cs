@@ -17,7 +17,7 @@ public class Skeleton : Enemy, IDamageable
         Health--;
         if (Health < 1)
         {
-            Death();
+            StartCoroutine(Death());
         }
         else
         {
