@@ -14,10 +14,16 @@ public abstract class Enemy : MonoBehaviour
 
     //animations
     protected Animator anim;
-    protected const string ANIMATION_IDLE = "Idle";
-    protected const string ANIMATION_WALK = "Walk";
-    protected const string ANIMATION_HIT = "Hit";
-    protected const string ANIMATION_DEATH = "Death";
+    protected const string 
+        ANIMATION_IDLE = "Idle", 
+        ANIMATION_WALK = "Walk",
+        ANIMATION_HIT = "Hit",
+        ANIMATION_DEATH = "Death",
+        ANIMATION_INCOMBAT = "InCombat";
+
+    //combat
+    protected Player player;
+    protected const string PLAYERTAG_STRING = "Player";
 
     private void Start()
     {
@@ -29,6 +35,7 @@ public abstract class Enemy : MonoBehaviour
         target = pointB.position;
         lastPosition = transform.position;
         anim = GetComponentInChildren<Animator>();
+        player = GameObject.FindGameObjectWithTag(PLAYERTAG_STRING).GetComponent<Player>();
     }
 
     protected virtual void Update()
@@ -38,7 +45,8 @@ public abstract class Enemy : MonoBehaviour
 
     protected virtual void Move()
     {
-        if (!anim.GetCurrentAnimatorStateInfo(0).IsName(ANIMATION_WALK)) { return; }
+        if (IsInCombat() || !anim.GetCurrentAnimatorStateInfo(0).IsName(ANIMATION_WALK)) { return; }
+
         float step = speed * Time.deltaTime;
         bool wait = false;
 
@@ -92,7 +100,24 @@ public abstract class Enemy : MonoBehaviour
     public IEnumerator Death()
     {
         anim.SetTrigger(ANIMATION_DEATH);
+        GetComponent<BoxCollider2D>().enabled = false;
         yield return new WaitForSeconds(5);
         Destroy(this.gameObject);
+    }
+
+    private bool IsInCombat()
+    {
+        float distanceFromPlayer = Vector3.Distance(transform.position, player.transform.position);
+        if (distanceFromPlayer < 2.0f)
+        {
+            //anim.SetTrigger(ANIMATION_IDLE);
+            anim.SetBool(ANIMATION_INCOMBAT, true);
+            return true;
+        }
+        else
+        {
+            anim.SetBool(ANIMATION_INCOMBAT, false);
+            return false;
+        }
     }
 }
