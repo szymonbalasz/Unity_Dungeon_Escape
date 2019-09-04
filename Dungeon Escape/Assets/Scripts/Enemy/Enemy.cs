@@ -24,6 +24,7 @@ public abstract class Enemy : MonoBehaviour
     //combat
     protected Player player;
     protected const string PLAYERTAG_STRING = "Player";
+    protected bool dead = false;
 
     private void Start()
     {
@@ -43,7 +44,7 @@ public abstract class Enemy : MonoBehaviour
         Move();
     }
 
-    protected virtual void Move()
+    public virtual void Move()
     {
         if (IsInCombat() || !anim.GetCurrentAnimatorStateInfo(0).IsName(ANIMATION_WALK)) { return; }
 
@@ -92,13 +93,14 @@ public abstract class Enemy : MonoBehaviour
         }
     }
 
-    public void Hit()
+    public virtual void Hit()
     {
         anim.SetTrigger(ANIMATION_HIT);
     }
 
     public IEnumerator Death()
     {
+        dead = true;
         anim.SetTrigger(ANIMATION_DEATH);
         GetComponent<BoxCollider2D>().enabled = false;
         yield return new WaitForSeconds(5);
@@ -107,11 +109,22 @@ public abstract class Enemy : MonoBehaviour
 
     private bool IsInCombat()
     {
+        if (dead)
+        {
+            anim.SetBool(ANIMATION_INCOMBAT, false);
+            return true;
+        }
         float distanceFromPlayer = Vector3.Distance(transform.position, player.transform.position);
         if (distanceFromPlayer < 2.0f)
         {
             anim.SetTrigger(ANIMATION_IDLE);
             anim.SetBool(ANIMATION_INCOMBAT, true);
+
+            Vector3 direction = player.transform.localPosition - transform.localPosition;
+            FlipSprite(direction.x);
+            if (direction.x < 0) { target = pointA.position; }
+            else { target = pointB.position; }
+
             return true;
         }
         else

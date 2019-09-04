@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public class Player : MonoBehaviour, IDamageable
 {
+    public int Health { get; set; }
+
     private Rigidbody2D myBody;
 
     [SerializeField] private float moveSpeed = 2f;
@@ -77,4 +79,8 @@ public class Player : MonoBehaviour
         resetJump = false;
     }
 
+    public void Damage()
+    {
+        Debug.Log("Player damaged");
+    }
 }

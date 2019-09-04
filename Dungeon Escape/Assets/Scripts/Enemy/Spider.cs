@@ -14,6 +14,19 @@ public class Spider : Enemy, IDamageable
 
     public void Damage()
     {
+        Health--;
+        if (Health < 1)
+        {
+            StartCoroutine(Death());
+        }
+        else
+        {
+            Hit();
+        }
+    }
 
+    public override void Hit()
+    {
+        return;
     }
 }
