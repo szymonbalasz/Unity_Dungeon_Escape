@@ -110,7 +110,7 @@ public abstract class Enemy : MonoBehaviour
         float distanceFromPlayer = Vector3.Distance(transform.position, player.transform.position);
         if (distanceFromPlayer < 2.0f)
         {
-            //anim.SetTrigger(ANIMATION_IDLE);
+            anim.SetTrigger(ANIMATION_IDLE);
             anim.SetBool(ANIMATION_INCOMBAT, true);
             return true;
         }
