@@ -4,13 +4,14 @@ using UnityEngine;
 
 public abstract class Enemy : MonoBehaviour
 {
+    public int Health { get; set; }
+
     //stats
     [SerializeField] protected int health, speed, gems;
 
     //movement
     [SerializeField] protected Transform pointA, pointB;
     protected Vector3 target, lastPosition;
-    private bool isHit = false;
 
     //animations
     protected Animator anim;
@@ -37,6 +38,7 @@ public abstract class Enemy : MonoBehaviour
         lastPosition = transform.position;
         anim = GetComponentInChildren<Animator>();
         player = GameObject.FindGameObjectWithTag(PLAYERTAG_STRING).GetComponent<Player>();
+        Health = health;
     }
 
     protected virtual void Update()
@@ -131,6 +133,19 @@ public abstract class Enemy : MonoBehaviour
         {
             anim.SetBool(ANIMATION_INCOMBAT, false);
             return false;
+        }
+    }
+
+    public void Damage()
+    {
+        Health--;
+        if (Health < 1)
+        {
+            StartCoroutine(Death());
+        }
+        else
+        {
+            Hit();
         }
     }
 }
