@@ -26,6 +26,7 @@ public abstract class Enemy : MonoBehaviour, IDamageable
     protected Player player;
     protected const string PLAYERTAG_STRING = "Player";
     protected bool dead = false;
+    [SerializeField] float engageDistance = 1.5f;
 
     private void Start()
     {
@@ -117,7 +118,7 @@ public abstract class Enemy : MonoBehaviour, IDamageable
             return true;
         }
         float distanceFromPlayer = Vector3.Distance(transform.position, player.transform.position);
-        if (distanceFromPlayer < 2.0f)
+        if (distanceFromPlayer < engageDistance)
         {
             anim.SetTrigger(ANIMATION_IDLE);
             anim.SetBool(ANIMATION_INCOMBAT, true);

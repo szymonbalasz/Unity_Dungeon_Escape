@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 7153257082704025746}
   - component: {fileID: 7153257082704025747}
   - component: {fileID: 7153257082704025748}
+  - component: {fileID: 4984271853129876386}
+  - component: {fileID: -5425657639026132296}
   m_Layer: 0
   m_Name: Acid_Attack
   m_TagString: Untagged
@@ -26,7 +28,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7153257082704025749}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -45.844162, y: 1.6488391, z: 0}
+  m_LocalPosition: {x: -45.825, y: 1.639, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -99,3 +101,33 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!58 &4984271853129876386
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7153257082704025749}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.004848212, y: 0.031522155}
+  serializedVersion: 2
+  m_Radius: 0.16141102
+--- !u!114 &-5425657639026132296
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7153257082704025749}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2d477a148c0f5e4887283c4504133e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timeTillDeath: 5
+  speed: 4

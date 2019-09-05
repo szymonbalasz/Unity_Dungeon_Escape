@@ -8,14 +8,19 @@ public class Player : MonoBehaviour, IDamageable
 
     private Rigidbody2D myBody;
 
+    //movement
     [SerializeField] private float moveSpeed = 2f;
     [SerializeField] private float jumpForce = 5f;
     [SerializeField] private LayerMask groundLayer;
     private bool resetJump = false;
     private bool grounded = false;
 
+    //animations
     private PlayerAnimation playerAnim;
     private SpriteRenderer playerSprite;
+
+    //combat
+    private bool inCombat = false;
     
     void Start()
     {
@@ -26,8 +31,12 @@ public class Player : MonoBehaviour, IDamageable
 
     void Update()
     {
+        if (!inCombat)
+        {
+            
+            Jump();
+        }
         Move();
-        Jump();
         Attack();
     }
 
@@ -36,6 +45,10 @@ public class Player : MonoBehaviour, IDamageable
         float horizontalInput = Input.GetAxisRaw("Horizontal") * Time.deltaTime * moveSpeed;
         grounded = isGrounded();
         myBody.velocity = new Vector2(horizontalInput, myBody.velocity.y);
+        if (inCombat)
+        {
+            myBody.velocity = new Vector2(0, 0);
+        }
         playerAnim.Move(horizontalInput);
     }
 
@@ -54,6 +67,7 @@ public class Player : MonoBehaviour, IDamageable
         if (Input.GetMouseButtonDown(0) && grounded)
         {
             playerAnim.Attack();
+            inCombat = true;
         }        
     }
 
@@ -82,5 +96,10 @@ public class Player : MonoBehaviour, IDamageable
     public void Damage()
     {
         Debug.Log("Player damaged");
+    }
+
+    public void ResetInCombat()
+    {
+        inCombat = false;
     }
 }
