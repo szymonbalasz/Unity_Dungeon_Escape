@@ -8,6 +8,7 @@ public abstract class Enemy : MonoBehaviour, IDamageable
 
     //stats
     [SerializeField] protected int health, speed, gems;
+    [SerializeField] protected GameObject gemPrefab = default;
 
     //movement
     [SerializeField] protected Transform pointA, pointB;
@@ -27,6 +28,7 @@ public abstract class Enemy : MonoBehaviour, IDamageable
     protected const string PLAYERTAG_STRING = "Player";
     protected bool dead = false;
     [SerializeField] float engageDistance = 1.5f;
+    protected Vector3 dropLocation;
 
     private void Start()
     {
@@ -101,11 +103,14 @@ public abstract class Enemy : MonoBehaviour, IDamageable
         anim.SetTrigger(ANIMATION_HIT);
     }
 
-    public IEnumerator Death()
+    public virtual IEnumerator Death()
     {
         dead = true;
         anim.SetTrigger(ANIMATION_DEATH);
         GetComponent<BoxCollider2D>().enabled = false;
+        dropLocation = new Vector3(transform.position.x, transform.position.y - 0.5f, transform.position.z);
+        GameObject diamond = Instantiate(gemPrefab, dropLocation, Quaternion.identity) as GameObject;
+        diamond.GetComponent<Diamond>().SetGemValue(gems);
         yield return new WaitForSeconds(5);
         Destroy(this.gameObject);
     }

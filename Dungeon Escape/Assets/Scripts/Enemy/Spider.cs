@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Spider : Enemy
 {
-    [SerializeField] GameObject projectile;
+    [SerializeField] GameObject projectile = default;
 
     public override void Hit()
     {

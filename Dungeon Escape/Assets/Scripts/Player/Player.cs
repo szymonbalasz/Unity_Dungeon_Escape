@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class Player : MonoBehaviour, IDamageable
 {
+    //stats
     public int Health { get; set; }
+    [SerializeField] private int gems = 0;
 
     private Rigidbody2D myBody;
 
@@ -101,5 +103,10 @@ public class Player : MonoBehaviour, IDamageable
     public void ResetInCombat()
     {
         inCombat = false;
+    }
+
+    public void AddGems(int g)
+    {
+        gems += g;
     }
 }
