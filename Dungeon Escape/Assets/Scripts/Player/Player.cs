@@ -109,4 +109,9 @@ public class Player : MonoBehaviour, IDamageable
     {
         gems += g;
     }
+
+    public int GetGems()
+    {
+        return gems;
+    }
 }

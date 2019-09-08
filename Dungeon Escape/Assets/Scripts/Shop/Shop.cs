@@ -4,12 +4,17 @@ using UnityEngine;
 
 public class Shop : MonoBehaviour
 {
-    [SerializeField] GameObject shopPanel;
+    [SerializeField] GameObject shopPanel = default;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.tag == "Player")
         {
+            Player player = collision.GetComponent<Player>();
+            if (player != null)
+            {
+                UIManager.UIinstance.OpenShop(player.GetGems());
+            }
             shopPanel.SetActive(true);
         }
     }
