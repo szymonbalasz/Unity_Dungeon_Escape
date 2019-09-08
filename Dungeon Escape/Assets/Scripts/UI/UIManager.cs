@@ -20,6 +20,7 @@ public class UIManager : MonoBehaviour
     }
 
     [SerializeField] Text playerGemCount = default;
+    [SerializeField] Image selectionImage = default;
 
     private void Awake()
     {

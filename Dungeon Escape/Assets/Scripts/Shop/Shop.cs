@@ -26,4 +26,9 @@ public class Shop : MonoBehaviour
             shopPanel.SetActive(false);
         }
     }
+
+    public void SelectItem()
+    {
+        
+    }
 }
