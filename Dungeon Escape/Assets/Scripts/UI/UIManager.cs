@@ -45,6 +45,9 @@ public class UIManager : MonoBehaviour
         playerGemCount.text = " " + g.ToString() + "G";
     }
 
-
+    public void UpdateShopSelection(int yPos)
+    {
+        selectionImage.rectTransform.anchoredPosition = new Vector2(selectionImage.rectTransform.anchoredPosition.x, yPos);
+    }
 
 }
