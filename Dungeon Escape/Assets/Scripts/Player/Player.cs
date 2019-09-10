@@ -29,6 +29,7 @@ public class Player : MonoBehaviour, IDamageable
         myBody = GetComponent<Rigidbody2D>();
         playerAnim = GetComponent<PlayerAnimation>();
         playerSprite = transform.Find("Sprite").GetComponent<SpriteRenderer>();
+        Health = 4;
     }
 
     void Update()
@@ -97,7 +98,8 @@ public class Player : MonoBehaviour, IDamageable
 
     public void Damage()
     {
-        Debug.Log("Player damaged");
+        Health--;
+        UIManager.UIinstance.UpdateLives(Health);
     }
 
     public void ResetInCombat()
@@ -108,6 +110,7 @@ public class Player : MonoBehaviour, IDamageable
     public void AddGems(int g)
     {
         gems += g;
+        UIManager.UIinstance.UpdateGemCountText(gems);
     }
 
     public int GetGems()

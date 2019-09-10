@@ -21,6 +21,8 @@ public class UIManager : MonoBehaviour
 
     [SerializeField] Text playerGemCount = default;
     [SerializeField] Image selectionImage = default;
+    [SerializeField] Text gemCountText = default;
+    [SerializeField] GameObject[] lifeBarArray = default;
 
     private void Awake()
     {
@@ -35,9 +37,7 @@ public class UIManager : MonoBehaviour
         {
             DontDestroyOnLoad(gameObject);
             instance = this;
-        }
-
-        
+        }        
     }
 
     public void OpenShop(int g)
@@ -50,4 +50,16 @@ public class UIManager : MonoBehaviour
         selectionImage.rectTransform.anchoredPosition = new Vector2(selectionImage.rectTransform.anchoredPosition.x, yPos);
     }
 
+    public void UpdateGemCountText(int g)
+    {
+        gemCountText.text = " " + g;
+    }
+
+    public void UpdateLives(int livesRemaining)
+    {
+        if (livesRemaining >= 0)
+        {
+            lifeBarArray[livesRemaining].SetActive(false);
+        }
+    }
 }
