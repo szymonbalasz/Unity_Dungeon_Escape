@@ -24,6 +24,8 @@ public class GameManager : MonoBehaviour
         set { hasKeyToCastle = value; }
     }
 
+    public Player Player { get; private set; }
+
     private void Awake()
     {
         int numGameManagers = FindObjectsOfType<GameManager>().Length;
@@ -38,5 +40,10 @@ public class GameManager : MonoBehaviour
             DontDestroyOnLoad(gameObject);
             instance = this;
         }
+    }
+
+    private void Start()
+    {
+        Player = FindObjectOfType<Player>();
     }
 }
