@@ -22,7 +22,8 @@ public class Player : MonoBehaviour, IDamageable
     private SpriteRenderer playerSprite;
 
     //combat
-    private bool inCombat = false;
+    [SerializeField] private bool inCombat = false;
+    [SerializeField] private bool isDead = false;
     
     void Start()
     {
@@ -34,9 +35,14 @@ public class Player : MonoBehaviour, IDamageable
 
     void Update()
     {
+        PlayerControls();
+    }
+
+    private void PlayerControls()
+    {
         if (!inCombat)
         {
-            
+
             Jump();
         }
         Move();
@@ -48,10 +54,7 @@ public class Player : MonoBehaviour, IDamageable
         float horizontalInput = Input.GetAxisRaw("Horizontal") * Time.deltaTime * moveSpeed;
         grounded = isGrounded();
         myBody.velocity = new Vector2(horizontalInput, myBody.velocity.y);
-        if (inCombat)
-        {
-            myBody.velocity = new Vector2(0, 0);
-        }
+        if (inCombat || isDead) {myBody.velocity = new Vector2(0, 0); return; }
         playerAnim.Move(horizontalInput);
     }
 
@@ -98,8 +101,19 @@ public class Player : MonoBehaviour, IDamageable
 
     public void Damage()
     {
+        if (isDead) { return; }
         Health--;
         UIManager.UIinstance.UpdateLives(Health);
+        if (Health <= 0)
+        {
+            isDead = true;
+            playerAnim.Die();
+        }
+        else
+        {
+            playerAnim.Hit();
+            inCombat = true;
+        }
     }
 
     public void ResetInCombat()

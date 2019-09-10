@@ -7,6 +7,15 @@ public class PlayerAnimation : MonoBehaviour
     private Animator playerAnim, swordAnim;
     private SpriteRenderer playerSprite, playerSwordArc;
 
+    protected const string
+        ANIMATION_IDLE = "Idle",
+        ANIMATION_WALK = "Walk",
+        ANIMATION_HIT = "Hit",
+        ANIMATION_DEATH = "Death",
+        ANIMATION_MOVE = "Move",
+        ANIMATION_JUMPING = "Jumping",
+        ANIMATION_ATTACK = "Attack";
+
     void Start()
     {
         playerAnim = transform.Find("Sprite").GetComponent<Animator>();
@@ -40,12 +49,22 @@ public class PlayerAnimation : MonoBehaviour
 
     public void Jump(bool jumping)
     {
-        playerAnim.SetBool("Jumping", jumping);
+        playerAnim.SetBool(ANIMATION_JUMPING, jumping);
     }
 
     public void Attack()
     {
-        playerAnim.SetTrigger("Attack");
+        playerAnim.SetTrigger(ANIMATION_ATTACK);
         
+    }
+
+    public void Die()
+    {
+        playerAnim.SetTrigger(ANIMATION_DEATH);
+    }
+
+    public void Hit()
+    {
+        playerAnim.SetTrigger(ANIMATION_HIT);
     }
 }
