@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityStandardAssets.CrossPlatformInput;
 
 public class Player : MonoBehaviour, IDamageable
 {
@@ -16,6 +17,8 @@ public class Player : MonoBehaviour, IDamageable
     [SerializeField] private LayerMask groundLayer;
     private bool resetJump = false;
     private bool grounded = false;
+
+    private const string BUTTON_A = "Button_A", BUTTON_B = "Button_B";
 
     //animations
     private PlayerAnimation playerAnim;
@@ -51,7 +54,8 @@ public class Player : MonoBehaviour, IDamageable
 
     private void Move()
     {
-        float horizontalInput = Input.GetAxisRaw("Horizontal") * Time.deltaTime * moveSpeed;
+        float horizontalInput = CrossPlatformInputManager.GetAxis("Horizontal") * Time.deltaTime * moveSpeed;
+        //horizontalInput = Input.GetAxisRaw("Horizontal") * Time.deltaTime * moveSpeed; //uncomment to override mobile joystick
         grounded = isGrounded();
         myBody.velocity = new Vector2(horizontalInput, myBody.velocity.y);
         if (inCombat || isDead) {myBody.velocity = new Vector2(0, 0); return; }
@@ -60,7 +64,7 @@ public class Player : MonoBehaviour, IDamageable
 
     private void Jump()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && isGrounded())
+        if ((Input.GetKeyDown(KeyCode.Space) || CrossPlatformInputManager.GetButtonDown(BUTTON_B)) && isGrounded()) 
         {
             myBody.velocity = new Vector2(myBody.velocity.x, jumpForce);
             StartCoroutine(ResetJumpRoutine());
@@ -70,7 +74,7 @@ public class Player : MonoBehaviour, IDamageable
 
     private void Attack()
     {
-        if (Input.GetMouseButtonDown(0) && grounded)
+        if ((Input.GetMouseButtonDown(1) || CrossPlatformInputManager.GetButtonDown(BUTTON_A)) && grounded)
         {
             playerAnim.Attack();
             inCombat = true;
