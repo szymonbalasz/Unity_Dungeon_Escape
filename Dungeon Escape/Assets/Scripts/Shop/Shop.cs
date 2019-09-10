@@ -60,6 +60,21 @@ public class Shop : MonoBehaviour
         if (player.GetGems() >= currentItemCost)
         {
             player.AddGems(currentItemCost * -1);
+
+            switch (currentlySelectedItem)
+            {
+                case 0:
+                    
+                    break;
+                case 1:
+                    
+                    break;
+                case 2:
+                    GameManager.GMinstance.HasKeyToCastle = true;
+                    break;
+            }
+
+
             shopPanel.SetActive(false);
         }
         else
