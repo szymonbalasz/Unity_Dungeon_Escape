@@ -29,7 +29,7 @@ public class Player : MonoBehaviour, IDamageable
     [SerializeField] private bool isDead = false;
 
     [Header("Sounds")]
-    private AudioSource audio;
+    private new AudioSource audio;
     [SerializeField] float playerSFXVolume = 0.7f;
     [SerializeField] AudioClip
         deathSFX = default,

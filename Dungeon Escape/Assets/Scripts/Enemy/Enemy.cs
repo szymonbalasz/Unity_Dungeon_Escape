@@ -30,6 +30,15 @@ public abstract class Enemy : MonoBehaviour, IDamageable
     [SerializeField] float engageDistance = 1.5f;
     protected Vector3 dropLocation;
 
+    [Header("Sounds")]
+    protected new AudioSource audio;
+    [SerializeField] float enemySFXVolume = 0.2f;
+    [SerializeField]
+    AudioClip
+        deathSFX = default,
+        hitSFX = default,
+        attackSFX = default;
+
     private void Start()
     {
         Init();
@@ -42,6 +51,7 @@ public abstract class Enemy : MonoBehaviour, IDamageable
         anim = GetComponentInChildren<Animator>();
         player = GameObject.FindGameObjectWithTag(PLAYERTAG_STRING).GetComponent<Player>();
         Health = health;
+        audio = GetComponent<AudioSource>();
     }
 
     protected virtual void Update()
@@ -101,12 +111,14 @@ public abstract class Enemy : MonoBehaviour, IDamageable
     public virtual void Hit()
     {
         anim.SetTrigger(ANIMATION_HIT);
+        audio.PlayOneShot(hitSFX, enemySFXVolume);
     }
 
     public virtual IEnumerator Death()
     {
         dead = true;
         anim.SetTrigger(ANIMATION_DEATH);
+        audio.PlayOneShot(deathSFX, enemySFXVolume);
         GetComponent<BoxCollider2D>().enabled = false;
         dropLocation = new Vector3(transform.position.x, transform.position.y - 0.5f, transform.position.z);
         GameObject diamond = Instantiate(gemPrefab, dropLocation, Quaternion.identity) as GameObject;
@@ -153,5 +165,10 @@ public abstract class Enemy : MonoBehaviour, IDamageable
         {
             Hit();
         }
+    }
+
+    public void PlayAttackSound()
+    {
+        audio.PlayOneShot(attackSFX, enemySFXVolume);
     }
 }

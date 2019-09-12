@@ -14,4 +14,9 @@ public class Hit_Box_Helper : MonoBehaviour
     {
         attack.ResetCooldown();
     }
+
+    private void AttackSFX()
+    {
+        GetComponentInParent<Enemy>().PlayAttackSound();
+    }
 }
