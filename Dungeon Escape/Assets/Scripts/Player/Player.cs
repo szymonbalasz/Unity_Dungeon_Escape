@@ -5,13 +5,13 @@ using UnityStandardAssets.CrossPlatformInput;
 
 public class Player : MonoBehaviour, IDamageable
 {
-    //stats
     public int Health { get; set; }
+    [Header("Stats")]
     [SerializeField] private int gems = 0;
 
     private Rigidbody2D myBody;
 
-    //movement
+    [Header("Movement")]
     [SerializeField] private float moveSpeed = 2f;
     [SerializeField] private float jumpForce = 5f;
     [SerializeField] private LayerMask groundLayer;
@@ -24,14 +24,20 @@ public class Player : MonoBehaviour, IDamageable
     private PlayerAnimation playerAnim;
     private SpriteRenderer playerSprite;
 
-    //combat
+    [Header("Combat")]
     [SerializeField] private bool inCombat = false;
     [SerializeField] private bool isDead = false;
+
+    [Header("Sounds")]
+    private AudioSource audio;
+    [SerializeField] float playerSFXVolume = 0.7f;
+    [SerializeField] AudioClip deathSFX = default;
     
     void Start()
     {
         myBody = GetComponent<Rigidbody2D>();
         playerAnim = GetComponent<PlayerAnimation>();
+        audio = GetComponent<AudioSource>();
         playerSprite = transform.Find("Sprite").GetComponent<SpriteRenderer>();
         Health = 4;
     }
@@ -110,15 +116,21 @@ public class Player : MonoBehaviour, IDamageable
         UIManager.UIinstance.UpdateLives(Health);
         if (Health <= 0)
         {
-            isDead = true;
-            playerAnim.Die();
-            StartCoroutine(BackToMenu());
+            Death();
         }
         else
         {
             playerAnim.Hit();
             inCombat = true;
         }
+    }
+
+    public void Death()
+    {
+        isDead = true;
+        audio.PlayOneShot(deathSFX, playerSFXVolume);
+        playerAnim.Die();
+        StartCoroutine(BackToMenu());
     }
 
     public void ResetInCombat()
