@@ -31,8 +31,13 @@ public class Player : MonoBehaviour, IDamageable
     [Header("Sounds")]
     private AudioSource audio;
     [SerializeField] float playerSFXVolume = 0.7f;
-    [SerializeField] AudioClip deathSFX = default;
-    
+    [SerializeField] AudioClip
+        deathSFX = default,
+        diamondSFX = default,
+        hitSFX = default,
+        jumpSFX = default,
+        swingSwordSFX = default;
+
     void Start()
     {
         myBody = GetComponent<Rigidbody2D>();
@@ -61,7 +66,7 @@ public class Player : MonoBehaviour, IDamageable
     private void Move()
     {
         float horizontalInput = CrossPlatformInputManager.GetAxis("Horizontal") * Time.deltaTime * moveSpeed;
-        horizontalInput = Input.GetAxisRaw("Horizontal") * Time.deltaTime * moveSpeed; //uncomment to override mobile joystick
+        //horizontalInput = Input.GetAxisRaw("Horizontal") * Time.deltaTime * moveSpeed; //uncomment to override mobile joystick
         grounded = isGrounded();
         myBody.velocity = new Vector2(horizontalInput, myBody.velocity.y);
         if (inCombat || isDead) {myBody.velocity = new Vector2(0, 0); return; }
@@ -73,6 +78,7 @@ public class Player : MonoBehaviour, IDamageable
         if ((Input.GetKeyDown(KeyCode.Space) || CrossPlatformInputManager.GetButtonDown(BUTTON_B)) && isGrounded()) 
         {
             myBody.velocity = new Vector2(myBody.velocity.x, jumpForce);
+            audio.PlayOneShot(jumpSFX, playerSFXVolume);
             StartCoroutine(ResetJumpRoutine());
             playerAnim.Jump(true);
         }
@@ -83,6 +89,7 @@ public class Player : MonoBehaviour, IDamageable
         if ((/*Input.GetMouseButtonDown(1) ||*/ CrossPlatformInputManager.GetButtonDown(BUTTON_A)) && grounded)
         {
             playerAnim.Attack();
+            audio.PlayOneShot(swingSwordSFX, playerSFXVolume - 0.2f);
             inCombat = true;
         }        
     }
@@ -121,6 +128,7 @@ public class Player : MonoBehaviour, IDamageable
         else
         {
             playerAnim.Hit();
+            audio.PlayOneShot(hitSFX, playerSFXVolume - 0.3f);
             inCombat = true;
         }
     }
@@ -142,6 +150,7 @@ public class Player : MonoBehaviour, IDamageable
     {
         gems += g;
         UIManager.UIinstance.UpdateGemCountText(gems);
+        audio.PlayOneShot(diamondSFX, playerSFXVolume - 0.3f);
     }
 
     public int GetGems()
