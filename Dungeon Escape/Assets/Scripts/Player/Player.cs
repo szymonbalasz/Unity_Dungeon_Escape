@@ -66,7 +66,7 @@ public class Player : MonoBehaviour, IDamageable
     private void Move()
     {
         float horizontalInput = CrossPlatformInputManager.GetAxis("Horizontal") * Time.deltaTime * moveSpeed;
-        //horizontalInput = Input.GetAxisRaw("Horizontal") * Time.deltaTime * moveSpeed; //uncomment to override mobile joystick
+        horizontalInput = Input.GetAxisRaw("Horizontal") * Time.deltaTime * moveSpeed; //uncomment to override mobile joystick
         grounded = isGrounded();
         myBody.velocity = new Vector2(horizontalInput, myBody.velocity.y);
         if (inCombat || isDead) {myBody.velocity = new Vector2(0, 0); return; }
@@ -86,7 +86,7 @@ public class Player : MonoBehaviour, IDamageable
 
     private void Attack()
     {
-        if ((/*Input.GetMouseButtonDown(1) ||*/ CrossPlatformInputManager.GetButtonDown(BUTTON_A)) && grounded)
+        if ((Input.GetMouseButtonDown(0) || CrossPlatformInputManager.GetButtonDown(BUTTON_A)) && grounded)
         {
             playerAnim.Attack();
             audio.PlayOneShot(swingSwordSFX, playerSFXVolume - 0.2f);
