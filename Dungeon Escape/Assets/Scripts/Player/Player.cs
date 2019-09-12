@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityStandardAssets.CrossPlatformInput;
-using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour, IDamageable
 {
@@ -141,6 +140,6 @@ public class Player : MonoBehaviour, IDamageable
     private IEnumerator BackToMenu()
     {
         yield return new WaitForSeconds(5);
-        SceneManager.LoadScene(0);
+        UIManager.UIinstance.GoToMenu();
     }
 }
